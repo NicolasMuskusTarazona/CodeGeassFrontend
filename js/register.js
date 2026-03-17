@@ -19,7 +19,11 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
         const data = await res.json()
 
         if (!res.ok) {
-            document.getElementById("message").innerText = data.detail || "Register error"
+            if (data.detail === "Email already registered") {
+                document.getElementById("message").innerText = "Este correo ya esta registrado"
+            } else {
+                document.getElementById("message").innerText = "Error al registrarse"
+            }
             return
         }
 
