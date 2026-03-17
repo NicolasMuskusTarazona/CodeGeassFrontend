@@ -1,46 +1,43 @@
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
-
     e.preventDefault()
 
-    const name = document.getElementById("name").value
-    const email = document.getElementById("email").value
-    const password = document.getElementById("password").value
+    const email = document.getElementById("email").value.trim()
+    const password = document.getElementById("password").value.trim()
+
+    document.getElementById("message").innerText = ""
 
     try {
-
         const res = await fetch("https://codegeass.up.railway.app/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, email, password })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
         })
 
         const data = await res.json()
 
-        if (res.status === 401) {
-            document.getElementById("message").innerText = "Unauthorized"
-            return
-        }
-
-        if (res.status === 404) {
-            document.getElementById("message").innerText = "User not found"
-            return
-        }
-
         if (!res.ok) {
-            document.getElementById("message").innerText = data.detail || "Login error"
+            document.getElementById("message").innerText = "Email o contraseña incorrectos"
             return
         }
 
-        window.location.href = "charactersAdmin.html"
+        // guardar token
+        localStorage.setItem("token", data.access_token)
 
-        document.getElementById("message").innerText = "Login successful"
+        // extraer payload del JWT
+        const payload = JSON.parse(atob(data.access_token.split(".")[1]))
+
+        // guardar role 
+        localStorage.setItem("role", payload.role)
+
+        // redirigir segun rol
+        if (payload.role === "admin") {
+            window.location.href = "admin.html"
+        } else {
+            window.location.href = "characters.html"
+        }
 
     } catch (error) {
-
-        document.getElementById("message").innerText = "Server error"
-
+        document.getElementById("message").innerText = "Error del servidor intenta mas tarde"
+        console.error(error)
     }
-
 })
