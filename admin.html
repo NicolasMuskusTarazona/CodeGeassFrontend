@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Geass Characters</title>
+    <link rel="stylesheet" href="./css/character.css">
+</head>
+
+<body>
+
+    <h1>Code Geass Characters</h1>
+
+    <div class="actions">
+
+        <button onclick="toggleForm()">Create Character</button>
+        <button onclick="toggleEditForm()">Edit Character</button>
+
+    </div>
+
+    <!-- CREATE CHARACTER -->
+
+    <div id="formContainer" style="display:none;">
+        <form id="characterForm">
+
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="geass" placeholder="Geass" required>
+            <input type="text" id="affiliation" placeholder="Affiliation" required>
+            <input type="text" id="image" placeholder="Image URL" required>
+
+            <button type="submit">Create</button>
+
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <!-- EDIT CHARACTER -->
+
+    <div id="editFormContainer" style="display:none;">
+
+        <form id="editCharacterForm">
+
+            <input type="text" id="editId" placeholder="Character ID" required>
+
+            <input type="text" id="editName" placeholder="Name">
+            <input type="text" id="editGeass" placeholder="Geass">
+            <input type="text" id="editAffiliation" placeholder="Affiliation">
+            <input type="text" id="editImage" placeholder="Image URL">
+
+            <button type="submit">Update</button>
+
+        </form>
+
+        <p id="editMessage"></p>
+
+    </div>
+    <!-- DELETE CHARACTER -->
+    <div class="delete-container">
+        <button onclick="toggleDeleteForm()">Delete Character</button>
+
+        <div id="deleteFormContainer" style="display:none; margin-top:10px;">
+            <input type="text" id="deleteId" placeholder="ID Character" required>
+            <button onclick="deleteCharacter()">Delete</button>
+            <p id="deleteMessage"></p>
+        </div>
+    </div>
+    <!-- SEARCH -->
+
+    <input type="text" id="characterId" placeholder="Enter character id">
+    <button onclick="getCharacterById()">Search</button>
+
+    <div id="characters" class="characters-container"></div>
+
+    <script src="./js/admin.js"></script>
+
+</body>
+
+</html>
